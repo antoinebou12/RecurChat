@@ -1,0 +1,14 @@
+{
+  "name": "RecurChation",
+  "version": "0.0.1",
+  "description": "A Chat based application that can have nested message or messenger style reaction to represent more group like interaction based on mongodb for the database and angularjs for the frontend",
+  "main": "server.js",
+  "repository": "https://gitlab.com/antoinebou13/recurchation",
+  "author": "Antoine <antoine.bou13@gmail.com>",
+  "dependencies": {
+    "async": "~0.2.8",
+    "express": "~3.2.4",
+    "mongodb": "^3.1.13",
+    "socket.io": "~0.9.14"
+  }
+}
