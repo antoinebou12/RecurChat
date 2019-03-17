@@ -1,14 +1,13 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator');
 
 const Schema = mongoose.Schema;
 
 let RoomSchema = new Schema({
-  roomname: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
   createdDate: { type: Date, default: Date.now },
   members:{ type: Array},
 });
 
-RoomSchema.plugin(uniqueValidator);
+let roomModel = mongoose.model('room', RoomSchema);
 
-module.exports = room
+module.exports = roomModel

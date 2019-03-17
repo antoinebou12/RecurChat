@@ -1,6 +1,7 @@
-let mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const server = 'localhost:27017'; 
+const server = 'localhost'; 
+const port = '27017';
 const database = 'RecurChation';  
 
 class Database {
@@ -8,7 +9,7 @@ class Database {
     this._connect()
   }
 _connect() {
-     mongoose.connect(`mongodb://${server}/${database}`, { useNewUrlParser: true })
+     mongoose.connect(`mongodb://${server}:${port}/${database}`, { useNewUrlParser: true })
        .then(() => {
          console.log('Database connection successful')
        })
@@ -18,7 +19,7 @@ _connect() {
   }
 }
 
-const db = new Database()
+let db = new Database()
 module.exports = db
 
 
