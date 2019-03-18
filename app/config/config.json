@@ -2,8 +2,8 @@
 	"db": {
 		"username": "<MongoDBUsername>",
 		"password": "<MongoDBPassword>",
-		"host": "<MongoDBHost>",
-		"port": "<MongoDBPort>",
-		"name": "<MongoDBName>"
-    }
+		"host": "localhost",
+		"port": "27017",
+		"name": "RecurChation"
+	}
 }

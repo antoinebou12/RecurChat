@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 let RoomSchema = new Schema({
   title: { type: String, required: true },
-  members: { type: [{ userId: String }]},
+  members: { type: [{ userId: String, socketId: String }]},
   createdDate: { type: Date, default: Date.now },
   
 });
