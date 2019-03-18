@@ -1,22 +1,26 @@
 const mongoose = require('mongoose');
 
-let Room = require('./models/room');
-let User = require('./models/user');
+const Room = require('./models/room');
+const User = require('./models/user');
 
-const server = 'localhost'; 
-const port = '27017';
-const database = 'RecurChation';  
+const config = require('../config/config.json');
+
+const host = config.db.host
+const port = config.db.port
+const database = config.db.name
 
 mongoose.set('useCreateIndex', true)
 
-mongoose.connect(`mongodb://${server}:${port}/${database}`, { useNewUrlParser: true })
-.then(() => {
-  console.log('Database connection successful')
-})
+mongoose.connect(`mongodb://${host}:${port}/${database}`, {
+    useNewUrlParser: true
+  })
+  .then(() => {
+    console.log('Database connection successful')
+  })
 
 // Throw an error if the connection fails
-mongoose.connection.on('error', function(err) {
-	if(err) throw err;
+mongoose.connection.on('error', function (err) {
+  if (err) throw err;
 });
 
 
@@ -27,7 +31,7 @@ mongoose.connection.on('error', function(err) {
 //   if(err) throw err;
 //   if(room){
 //     roomId = room._id
-//     // console.log(roomId)
+// console.log(roomId)
 //   }
 // });
 
@@ -35,7 +39,7 @@ mongoose.connection.on('error', function(err) {
 // let user1 = User.create({ username: "Antoine1"},  function(err, user){
 //   if(err) throw err;
 //   if(user){
-//     // console.log(user._id)
+//     console.log(user._id)
 //   }
 // });
 
@@ -46,7 +50,7 @@ mongoose.connection.on('error', function(err) {
 //   if(err) throw err;
 //   if(user){
 //     user2Id = user._id
-//     // console.log(user2Id)
+// console.log(user2Id)
 //   }
 // });
 

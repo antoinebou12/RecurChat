@@ -20,6 +20,10 @@ let database = require('./app/database/Database.js')
 //Application components
 var routes = require('./app/routes');
 
+//TODO cookies
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 // Set the ip and port number
 const ip = process.env.IP || "0.0.0.0"
 const port = process.env.PORT || 3000;
@@ -31,21 +35,21 @@ app.set('view engine', 'html');
 
 // Middlewares
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(express.static('public'));
 
 //router
 app.use('/', routes);
 
 // Middleware to catch 404 errors
-app.use(function(req, res) {
+app.use(function (req, res) {
   res.status(404).sendFile(process.cwd() + '/app/views/404.html');
 });
 
 //server
-server.listen(port, ip, function(){
+server.listen(port, ip, function () {
   var addr = server.address();
   console.log("Chat server listening at", addr.address + ":" + addr.port);
 });
-
-
