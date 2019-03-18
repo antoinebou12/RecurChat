@@ -10,9 +10,13 @@ const server = http.createServer(app);
 
 const SocketIO = require("./app/socket/socket.js");
 
+// Set the ip and port number
+const ip = process.env.IP || "0.0.0.0";
+const port = process.env.PORT || 3000;
+
 app.use(express.static(path.resolve(__dirname, 'app/views')));
 
-SocketIO.init(server)
+SocketIO.init(server);
 
 //database connection
 let database = require('./app/database/Database.js')
@@ -21,12 +25,8 @@ let database = require('./app/database/Database.js')
 var routes = require('./app/routes');
 
 //TODO cookies
-var cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
-// Set the ip and port number
-const ip = process.env.IP || "0.0.0.0"
-const port = process.env.PORT || 3000;
+// var cookieParser = require('cookie-parser');
+// app.use(cookieParser());
 
 // View engine setup
 app.set('views', path.join(__dirname, 'app/views'));
