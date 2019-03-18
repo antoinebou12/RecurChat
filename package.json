@@ -1,5 +1,5 @@
 {
-  "name": "RecurChation",
+  "name": "RecurChat",
   "version": "1.0.0",
   "description": "A Chat based application that can have nested message or messenger style reaction to represent more group like interaction based on mongodb for the database and angularjs for the frontend",
   "main": "server.js",
