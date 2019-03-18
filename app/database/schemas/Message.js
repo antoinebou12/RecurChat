@@ -1,13 +1,13 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-let message = new Schema({
-  data: {type: String},
+let MessageSchema = new Schema({
+  data: {type: String, required: true},
   createdDate: { type: Date, default: Date.now },
 
 });
 
 let messageModel = mongoose.model('message', MessageSchema);
 
-module.exports = messageModel
+module.exports = messageModel;

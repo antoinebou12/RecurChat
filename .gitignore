@@ -64,3 +64,6 @@ typings/
 
 # Windows
 .DS_Store
+
+#vscode
+.vscode

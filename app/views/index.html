@@ -14,18 +14,6 @@
 
 <body>
   <div class="container" ng-controller="ChatController">
-    <!-- <div class="row">
-      <div class="span3">
-        <ul class="nav nav-list well">
-          <li class="nav-header">Rooms</li>
-            <li ng-repeat="room in catalogue" ng-bind="room"> 
-            <li>Room1</li>
-            <li>Room2</li>
-            <li>Room3</li>
-          </li> 
-        </ul>
-      </div>
-    </div> -->
     <div class="row">
       <div class="span3">
         <ul class="nav nav-list well">
@@ -52,7 +40,7 @@
         <div class="row controls">
           <form ng-submit="send()">
             <div class="span2"><input type="text" class="input-block-level" ng-model="name" ng-disabled="isDisabled"
-                ng-value="nameValue" ng-change="setName()" placeholder="Your Name" value=""></div>
+                ng-value="nameValue" ng-enter="setUsername()" placeholder="Your Name" value=""></div>
             <div class="input-append span7">
               <input type="text" class="span6" ng-model="text" placeholder="Message">
               <input type="submit" class="span1 btn btn-primary" value="Send" ng-disabled="!text">

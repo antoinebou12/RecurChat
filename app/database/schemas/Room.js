@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
@@ -11,4 +11,4 @@ let RoomSchema = new Schema({
 
 let roomModel = mongoose.model('room', RoomSchema);
 
-module.exports = roomModel
+module.exports = roomModel;

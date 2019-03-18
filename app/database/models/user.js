@@ -7,13 +7,13 @@ let create = function (data, callback) {
 
 let findOne = function (data, callback) {
 	userModel.findOne(data, callback);
-}
+};
 
 let findById = function (id, callback) {
 	userModel.findById(id, callback);
-}
+};
 
-var findOrCreate = function (data, callback) {
+let findOrCreate = function (data, callback) {
 	findOne({
 		'username': data.username
 	}, function (err, user) {
@@ -31,7 +31,7 @@ var findOrCreate = function (data, callback) {
 			});
 		}
 	});
-}
+};
 
 module.exports = {
 	create,
