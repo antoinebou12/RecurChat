@@ -5,11 +5,10 @@ const socketio = require('socket.io');
 
 const Room = require('../database/models/room');
 const User = require('../database/models/user');
-
-const cookieParser = require('cookie-parser'); 
-
-let messages = []
-let sockets = []
+ 
+let messages = [];
+let sockets = [];
+let catalogue = [];
 
 function init(server) {
     // socketio on the http server
@@ -40,7 +39,7 @@ function init(server) {
                 };
 
                 if (name.length !== 0) {
-                    createUser(name)
+                    createUser(name);
                 }else{
                     data = {
                         name: findUser(name),
@@ -59,6 +58,13 @@ function init(server) {
                 updateRoster();
             });
         });
+
+        socket.on('room', function (title) {
+            socket.set('title', String(title || 'Empty Room'), function (err) {
+                updateCatalogue();
+            });
+        });
+
     });
 }
 
@@ -99,7 +105,7 @@ function createUser(name) {
     }, function (err, user) {
         if (err) throw err;
         if (user) {
-            console.log(user)
+            console.log(user);
         }
     });
 }
