@@ -1,11 +1,15 @@
 function ChatController($scope) {
 
+  //init socket
   var socket = io.connect();
+
+  //socket array
   $scope.messages = [];
   $scope.roster = [];
   $scope.catalogue = [];
   
-  $scope.name = '';
+  //Input value 
+  $scope.username = '';
   $scope.text = '';
 
   //name input
@@ -13,32 +17,25 @@ function ChatController($scope) {
   $scope.isDisabled = false;
 
   socket.on('connect', function () {
-    $scope.setName();
+    $scope.setUsername();
   });
-  socket.on('message', function (msg) {
-    $scope.messages.push(msg);
-    $scope.$apply();
+
+  socket.on('disconnect', function(){
+    console.log('socket disconnected');
   });
-  socket.on('roster', function (names) {
-    $scope.roster = names;
-    $scope.$apply();
-  });
-  socket.on('catalogue', function (rooms) {
-    $scope.catalogue = rooms;
-    $scope.$apply();
-  });
+
   $scope.send = function send() {
-    console.log('Sending message:', $scope.text);
-    socket.emit('message', $scope.text);
     $scope.text = '';
     if ($scope.nameValue !== "") {
       $scope.isDisabled = true;
 
     }
   };
-  $scope.setName = function setName() {
-    socket.emit('identify', $scope.name);
+  $scope.setUsername = function setUsername() {
     $scope.nameValue = $scope.name;
+    $scope.roster.push($scope.name);
+    $scope.$apply();
+    console.log($scope.roster);
   };
 
 }
