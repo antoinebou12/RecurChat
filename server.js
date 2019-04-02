@@ -1,4 +1,3 @@
-const http = require('http');
 const path = require('path');
 const bodyParser = require('body-parser');
 const engines = require('consolidate');
@@ -6,9 +5,7 @@ const engines = require('consolidate');
 const express = require('express');
 
 const app = express();
-const server = http.createServer(app);
-
-const SocketIO = require("./app/socket/socket.js");
+const server = require('http').createServer(app);
 
 // Set the ip and port number
 const ip = process.env.IP || "0.0.0.0";
@@ -16,10 +13,8 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(path.resolve(__dirname, 'app/views')));
 
-SocketIO.init(server);
-
-//database connection
-let database = require('./app/database/Database.js');
+////database connection
+let database = require('./app/database/database.js');
 
 //Application components
 var routes = require('./app/routes');
@@ -44,8 +39,14 @@ app.use(function (req, res) {
   res.status(404).sendFile(process.cwd() + '/app/views/404.html');
 });
 
+//socket io 
+const SocketIO = require("./app/socket/socket.js");
+
+SocketIO.attach(server)
+
 //server
 server.listen(port, ip, function () {
   var addr = server.address();
   console.log("Chat server listening at", addr.address + ":" + addr.port);
 });
+
