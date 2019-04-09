@@ -3,47 +3,68 @@ const io = require('socket.io')();
 
 // Chatroom
 
-let numUsers = 0;
 let sockets = [];
+let users_all = [];
+let users_online = [];
+let messages = [];
 let catalogue = [];
 
 io.on('connection', (socket) => {
-var addedUser = false;
 console.log("connection")
-
 sockets.push(socket)
-console.log(sockets.length)
+console.log("sockets connected: " + sockets.length)
 
 // when the client emits 'new message', this listens and executes
-socket.on('new message', (data) => {
-    console.log("new message: " + data)
+socket.on('new message', (message) => {
+    console.log("new message: " + message)
+
+    let text = String(message || '');
+
+    if (!text)
+        return;
+
+    let data = {
+        username: socket.username,
+        message: text
+    };
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
-    username: socket.username,
-    message: data
-    });
+    socket.broadcast.emit('new message', data)
+
+    broadcast('new message', data);
+    messages.push(data);
 });
 
 // when the client emits 'add user', this listens and executes
 socket.on('add user', (username) => {
     console.log("username: " + username)
-    if (addedUser) return;
 
     // we store the username in the socket session for this client
     socket.username = username;
-    ++numUsers;
-    addedUser = true;
-    socket.emit('login', {
-        numUsers: numUsers
-    });
+    users_online.push(username)
+    users_all.push(username)
+    console.log("users: "+ users_online.length)
 
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: users_online.length
     });
 
-    updateMembers();
+    broadcast('members', users_online);
+    broadcast('all users', users_all);
+
+});
+
+
+// Update members list
+socket.on('update members', () => {
+    broadcast('members', users_online);
+    broadcast('all users', users_all);
+});
+
+// Update messages list
+socket.on('update messages', () => {
+    broadcast('messages',  messages);
 });
 
 // when the client emits 'typing', we broadcast it to others
@@ -63,30 +84,23 @@ socket.on('stop typing', () => {
 // when the user disconnects.. perform this
 socket.on('disconnect', () => {
     console.log("disconnect")
-    if (addedUser) {
-    --numUsers;
+
+    users_online.splice(users_online.indexOf(socket.username), 1)
+    console.log("users: "+ users_online.length)
+
     sockets.splice(sockets.indexOf(socket), 1);
 
     // echo globally that this client has left
     socket.broadcast.emit('user left', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: users_online.length
     });
-    }
-});
-});
 
-function updateMembers() {
-    async.map(
-      sockets,
-      function (socket, callback) {
-        socket.username
-      },
-      function (err, names) {
-        broadcast('members', names);
-      }
-    );
-}
+    broadcast('members', users_online);
+    broadcast('all users', users_all);
+
+});
+});
 
 function broadcast(event, data) {
     sockets.forEach(function (socket) {
