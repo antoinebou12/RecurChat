@@ -5,7 +5,11 @@ A Chat based application that can have nested message or messenger style reactio
 
 ### Installing
 
-Install with Dockerfile or
-npm install && node start start.js
+Install with Dockerfile
 
+```bash
+
+npm install && node server.js
+
+```
 

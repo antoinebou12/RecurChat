@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.resolve(__dirname, 'app/views')));
 
 ////database connection
-let database = require('./app/database/database.js');
+let database = require('./app/database/Database.js');
 
 //Application components
 var routes = require('./app/routes');
