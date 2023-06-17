@@ -1,41 +1,39 @@
-let userModel = require('../schemas/User');
+const userModel = require('../schemas/User');
 
-let create = function (data, callback) {
-	let newUser = new userModel(data);
-	newUser.save(callback);
+const create = async (data) => {
+    if (!data.username) {
+        throw new Error('Missing required field: username');
+    }
+
+    const newUser = new userModel(data);
+    return await newUser.save();
 };
 
-let findOne = function (data, callback) {
-	userModel.findOne(data, callback);
+const findOne = async (data) => {
+    return await userModel.findOne(data);
 };
 
-let findById = function (id, callback) {
-	userModel.findById(id, callback);
+const findById = async (id) => {
+    return await userModel.findById(id);
 };
 
-let findOrCreate = function (data, callback) {
-	findOne({
-		'username': data.username
-	}, function (err, user) {
-		if (err) {
-			return callback(err);
-		}
-		if (user) {
-			return callback(err, user);
-		} else {
-			var userData = {
-				username: data.username,
-			};
-			create(userData, function (err, newUser) {
-				callback(err, newUser);
-			});
-		}
-	});
+const findOrCreate = async (data) => {
+    if (!data.username) {
+        throw new Error('Missing required field: username');
+    }
+
+    let user = await findOne({ 'username': data.username });
+
+    if (!user) {
+        user = await create(data);
+    }
+
+    return user;
 };
 
 module.exports = {
-	create,
-	findOne,
-	findById,
-	findOrCreate
+    create,
+    findOne,
+    findById,
+    findOrCreate
 };
