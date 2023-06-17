@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="roomsApp">
 
 <head>
     <meta charset="UTF-8">
@@ -8,23 +8,25 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="/css/rooms.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
 
 <body>
-    <div class="container" ng-controller="RoomsController">
+    <div class="container" ng-controller="RoomsController as ctrl">
         <div class="row">
             <div class="span12">
                 <ul class="nav nav-list well">
                     <li class="nav-header">Rooms</li>
-                    <!-- <li ng-repeat="room in catalogue" ng-bind="room"> -->
-                    <li>Room1</li>
-                    <li>Room2</li>
-                    <li>Room3</li>
-                    <!-- </li> -->
+                    <li ng-repeat="room in ctrl.rooms">
+                        {{ room }}
+                    </li>
                 </ul>
             </div>
         </div>
-        <script src="/socket.io/socket.io.js"></script>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/rooms-controller.js"></script>
 </body>
 
 </html>
