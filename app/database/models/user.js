@@ -1,39 +1,47 @@
-const userModel = require('../schemas/User');
+const roomModel = require('../schemas/Room');
 
 const create = async (data) => {
-    if (!data.username) {
-        throw new Error('Missing required field: username');
+    if (!data.title) {
+        throw new Error('Missing required field: title');
     }
 
-    const newUser = new userModel(data);
-    return await newUser.save();
+    const newRoom = new roomModel(data);
+    return await newRoom.save();
+};
+
+const find = async (data) => {
+    return await roomModel.find(data);
 };
 
 const findOne = async (data) => {
-    return await userModel.findOne(data);
+    return await roomModel.findOne(data);
 };
 
 const findById = async (id) => {
-    return await userModel.findById(id);
+    return await roomModel.findById(id);
 };
 
-const findOrCreate = async (data) => {
-    if (!data.username) {
-        throw new Error('Missing required field: username');
+const findByIdAndUpdate = async (id, data) => {
+    return await roomModel.findByIdAndUpdate(id, data, { new: true });
+};
+
+const addUser = async (room, user, socket) => {
+    // Check if user and room is valid
+    if (!user._id || !room._id) {
+        throw new Error('Invalid user or room');
     }
 
-    let user = await findOne({ 'username': data.username });
-
-    if (!user) {
-        user = await create(data);
-    }
-
-    return user;
+    // Push a new connection object(i.e. {userId + socketId})
+    const conn = { 'userId': user._id, 'socketId': socket.id };
+    room.connections.push(conn);
+    return await room.save();
 };
 
 module.exports = {
     create,
+    find,
     findOne,
     findById,
-    findOrCreate
+    findByIdAndUpdate,
+    addUser
 };
