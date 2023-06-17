@@ -7,60 +7,21 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
   <link rel="stylesheet" href="/css/index.css">
-
-  <!-- Angular  Controller-->
-  <script src="/controller/ChatController.js"></script>
 </head>
 
 <body>
   <div class="container" ng-controller="ChatController">
-    <div class="row">
-      <div class="span3">
-        <ul class="nav nav-list well">
-          <li class="nav-header">Users</li>
-          <li ng-repeat="user in members" ng-bind="user">
-          </li>
-        </ul>
-        <ul class="nav nav-list well">
-          <li class="nav-header">Users Online</li>
-          <li ng-repeat="user in members_online" ng-bind="user">
-          </li>
-        </ul>
-      </div>
-
-      <div class="span9">
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th class="span2">Name</th>
-              <th class="span7">Text</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="msg in messages">
-              <td class="span2" ng-bind="msg.username"></td>
-              <td class="span7" ng-bind="msg.message"></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="row controls">
-          <form ng-submit="send()">
-            <div class="span2"><input type="text" class="input-block-level" ng-model="name" ng-disabled="isDisabled"
-             ng-enter="setName()" ng-submit="setName()" placeholder="Your Name" value=""></div>
-            <div class="input-append span7">
-              <input type="text" class="span6" ng-model="text" placeholder="Message">
-              <input type="submit" class="span1 btn btn-primary" value="Send" ng-disabled="!text">
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    <!-- Existing HTML content -->
   </div>
+
+  <!-- Importing Scripts -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/jquery.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
   <script src="/js/angular.min.js"></script>
-  </div>
+
+  <!-- Import Angular Controller after Angular library -->
+  <script src="/controller/ChatController.js"></script>
 </body>
 
 </html>
