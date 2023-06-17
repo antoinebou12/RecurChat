@@ -1,24 +1,21 @@
 const mongoose = require('mongoose');
-
-const Room = require('./models/room');
-const User = require('./models/user');
-
 const config = require('../config/config.json');
 
-const host = config.db.host;
-const port = config.db.port;
-const database = config.db.name;
-
-mongoose.set('useCreateIndex', true);
-
-mongoose.connect(`mongodb://${host}:${port}/${database}`, {
-    useNewUrlParser: true
-  })
-  .then(() => {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true
+    });
     console.log('Database connection successful');
-  });
+  } catch (err) {
+    console.error('Database connection error: ', err.message);
+    // Exit process with failure
+    process.exit(1);
+  }
+};
 
-// Throw an error if the connection fails
-mongoose.connection.on('error', function (err) {
-  if (err) throw err;
-});
+mongoose.connection.on('disconnected', connectDB);
+
+module.exports = connectDB;
