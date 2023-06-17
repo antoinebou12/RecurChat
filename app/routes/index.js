@@ -1,33 +1,39 @@
 const express = require('express');
-let router = express.Router();
+const router = express.Router();
 
-var User = require('../database/models/user');
-var Room = require('../database/models/room');
+const User = require('../database/models/user');
+const Room = require('../database/models/room');
 
 // Home page
-router.get('/', function(req, res, next) {
-    res.render("index")
+router.get('/', (req, res) => {
+    res.render("index");
 });
 
 // Rooms
-router.get('/catalogue', function(req, res, next) {
-	Room.find(function(err, rooms){
-		if(err) throw err;
+router.get('/catalogue', async (req, res, next) => {
+	try {
+		const rooms = await Room.find();
 		res.render('rooms', { rooms });
-	});
+	} catch(err) {
+		next(err);
+	}
 });
 
 // Chat Room 
-router.get('/room/:id', function(req, res, next) {
-	var roomId = req.params.id;
-	Room.findById(roomId, function(err, room){
-		if(err) throw err;
-		if(!room){
-			return next(); 
-		}
-		res.render('room', { user: req.user, room: room });
-	});
-	
-});
+router.get('/room/:id', async (req, res, next) => {
+	try {
+		const roomId = req.params.id;
+		const room = await Room.findById(roomId);
 
+		if(!room){
+			const error = new Error('Room not found');
+			error.status = 404;
+			throw error;
+		}
+
+		res.render('room', { user: req.user, room: room });
+	} catch(err) {
+		next(err);
+	}
+});
 module.exports = router;
