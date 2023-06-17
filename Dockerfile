@@ -1,12 +1,23 @@
-FROM node:latest
-RUN mkdir -p /usr/src/app/data/db
+# Use a specific version of Node.js
+FROM node:14-alpine
+
+# Create app directory
 WORKDIR /usr/src/app
-ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
-COPY package.json /usr/src/app/
+
+# Install app dependencies
+# Using wildcard to also include package-lock.json
+COPY package*.json ./
+
 RUN npm install
-COPY . /usr/src/app
-ENV PORT 3000
+
+# Bundle app source
+COPY . .
+
+# Set environment variable
+ENV PORT=3000
+
+# Expose the port the app runs on
 EXPOSE $PORT
-CMD ["mongod", "--dbpath", "/usr/src/app/data/db"]
-CMD ["npm", "start"]
+
+# Start the application
+CMD [ "npm", "start" ]
